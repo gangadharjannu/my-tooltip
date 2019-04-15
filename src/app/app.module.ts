@@ -1,16 +1,19 @@
+import { Injector, NgModule } from '@angular/core';
+import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
+import { TooltipComponent } from './tooltip/tooltip.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+  declarations: [TooltipComponent],
+  imports: [BrowserModule],
+  entryComponents: [TooltipComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {}
+  ngDoBootstrap() {
+    const el = createCustomElement(TooltipComponent, {
+      injector: this.injector
+    });
+    customElements.define('my-tooltip', el);
+  }
+}
